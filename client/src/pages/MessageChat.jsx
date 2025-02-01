@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useSocket } from "../context/useSocket";
 import LoadingSpinner from "../components/LoadingSpinner";
+import { Link } from "react-router-dom";
 
 const MessageChat = () => {
   const [messages, setMessages] = useState([]);
@@ -167,28 +168,30 @@ const MessageChat = () => {
   if (isLoading) return <LoadingSpinner />;
 
   return (
-    <div className="min-h-screen bg-[#161f32] text-white p-4">
-      <div className="max-w-3xl mx-auto h-[90vh] flex flex-col bg-[#161f32]">
+    <div className="min-h-screen bg-[#161f32] text-white p-4 pt-0">
+      <div className="max-w-3xl min-w-4xl mx-auto h-[95vh] flex flex-col bg-[#161f39]">
         {/* Header */}
         <div className="flex items-center p-4 border-b border-gray-800">
           <button
             onClick={() => navigate(-1)}
             className="text-gray-400 hover:text-white mr-4"
           >
-            &larr;
+            <span className="font-bold cursor-pointer"> &larr; Back</span>
           </button>
           <div className="flex items-center space-x-3">
-            {recipient?.profilePhoto ? (
-              <img
-                src={`${recipient.profilePhoto}`}
-                alt={recipient.name}
-                className="w-10 h-10 rounded-full object-cover"
-              />
-            ) : (
-              <div className="w-10 h-10 flex items-center justify-center bg-gray-600 rounded-full">
-                {recipient?.name[0].toUpperCase()}
-              </div>
-            )}
+            <Link to={`/profile/${recipient._id}`}>
+              {recipient?.profilePhoto ? (
+                <img
+                  src={`${recipient.profilePhoto}`}
+                  alt={recipient.name}
+                  className="w-10 h-10 rounded-full object-cover"
+                />
+              ) : (
+                <div className="w-10 h-10 flex items-center justify-center bg-gray-600 rounded-full">
+                  {recipient?.name[0].toUpperCase()}
+                </div>
+              )}
+            </Link>
             <div>
               <p className="font-semibold">{recipient?.name}</p>
               <p className="text-gray-400 text-sm">@{recipient?.username}</p>
@@ -244,14 +247,17 @@ const MessageChat = () => {
                       }`}
                     >
                       <p>{message.content}</p>
-                      <div className="flex items-center justify-end space-x-1">
-                        <p className="text-xs text-gray-300">
-                          {new Date(message.timestamp).toLocaleTimeString()}
+                      <div className="flex items-center justify-end space-x-4">
+                        <p className="text-xs text-gray-300 whitespace-nowrap">
+                          {new Date(message.timestamp).toLocaleTimeString([], {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
                         </p>
                         {isCurrentUser && (
                           <span
                             className={`text-xs font-bold ${
-                              message.read ? "text-blue-200" : "text-gray-400"
+                              message.read ? "text-blue-900" : "text-gray-400"
                             }`}
                           >
                             ✓✓
