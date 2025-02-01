@@ -22,14 +22,17 @@ const app = express();
 // Middleware
 app.use(
   cors({
-    origin: "http://localhost:5173", // Replace with your frontend URL
+    origin: "https://sphere-delta-azure.vercel.app", // Replace with your frontend URL
     credentials: true,
   })
 );
 
 // Handle OPTIONS requests manually if needed
 app.options("*", (req, res) => {
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
+  res.setHeader(
+    "Access-Control-Allow-Origin",
+    "https://sphere-delta-azure.vercel.app"
+  );
   res.setHeader(
     "Access-Control-Allow-Methods",
     "GET, POST, PUT, DELETE, OPTIONS"
@@ -82,7 +85,7 @@ const server = http.createServer(app);
 // Configure Socket.io
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: "https://sphere-delta-azure.vercel.app",
     methods: ["GET", "POST"],
     credentials: true,
     extraHeaders: {
