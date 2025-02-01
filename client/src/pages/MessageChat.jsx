@@ -8,7 +8,7 @@ const MessageChat = () => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [recipient, setRecipient] = useState(null);
-  const [currentUser, setCurrentUser] = useState(null); // Add current user state
+  const [currentUser, setCurrentUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const { userId } = useParams();
   const socket = useSocket();
@@ -167,13 +167,16 @@ const MessageChat = () => {
   if (isLoading) return <LoadingSpinner />;
 
   return (
-    <div className="min-h-screen bg-[#161f32] text-white p-8">
-      <div className="max-w-4xl mx-auto">
-        <div
-          className="flex items-center mb-8 space-x-4 cursor-pointer"
-          onClick={() => navigate(-1)}
-        >
-          <button className="text-gray-400 hover:text-white">&larr;</button>
+    <div className="min-h-screen bg-[#161f32] text-white p-4">
+      <div className="max-w-3xl mx-auto h-[90vh] flex flex-col bg-[#161f32]">
+        {/* Header */}
+        <div className="flex items-center p-4 border-b border-gray-800">
+          <button
+            onClick={() => navigate(-1)}
+            className="text-gray-400 hover:text-white mr-4"
+          >
+            &larr;
+          </button>
           <div className="flex items-center space-x-3">
             {recipient?.profilePhoto ? (
               <img
@@ -193,100 +196,110 @@ const MessageChat = () => {
           </div>
         </div>
 
-        <div className="bg-gray-800 rounded-lg p-4 h-[70vh] overflow-y-auto">
-          {messages.map((message, index) => {
-            const isCurrentUser = message.sender === currentUserId;
-            const profilePhoto = isCurrentUser
-              ? currentUser?.profilePhoto
-              : recipient?.profilePhoto;
-            const displayName = isCurrentUser
-              ? currentUser?.name
-              : recipient?.name;
+        {/* Messages */}
+        <div className="flex-1 overflow-y-auto p-4">
+          {messages.length === 0 ? (
+            <div className="flex items-center justify-center h-full">
+              <p className="text-gray-400">No messages yet</p>
+            </div>
+          ) : (
+            messages.map((message, index) => {
+              const isCurrentUser = message.sender === currentUserId;
+              const profilePhoto = isCurrentUser
+                ? currentUser?.profilePhoto
+                : recipient?.profilePhoto;
+              const displayName = isCurrentUser
+                ? currentUser?.name
+                : recipient?.name;
 
-            return (
-              <div
-                key={index}
-                className={`flex ${
-                  isCurrentUser ? "justify-end" : "justify-start"
-                } mb-4`}
-              >
-                <div className="flex items-end space-x-2">
-                  {/* Sender's profile image */}
-                  {!isCurrentUser && (
-                    <div className="w-8 h-8 flex items-center justify-center bg-gray-600 rounded-full">
-                      {profilePhoto ? (
-                        <img
-                          src={`${profilePhoto}`}
-                          alt={displayName}
-                          className="w-8 h-8 rounded-full object-cover"
-                        />
-                      ) : (
-                        <span>{displayName[0].toUpperCase()}</span>
-                      )}
-                    </div>
-                  )}
+              return (
+                <div
+                  key={index}
+                  className={`flex ${
+                    isCurrentUser ? "justify-end" : "justify-start"
+                  } mb-4`}
+                >
+                  <div className="flex items-end space-x-2">
+                    {/* Sender's profile image */}
+                    {!isCurrentUser && (
+                      <div className="w-8 h-8 flex items-center justify-center bg-gray-600 rounded-full">
+                        {profilePhoto ? (
+                          <img
+                            src={`${profilePhoto}`}
+                            alt={displayName}
+                            className="w-8 h-8 rounded-full object-cover"
+                          />
+                        ) : (
+                          <span>{displayName[0].toUpperCase()}</span>
+                        )}
+                      </div>
+                    )}
 
-                  {/* Message bubble */}
-                  <div
-                    className={`max-w-[70%] rounded-lg p-3 ${
-                      isCurrentUser
-                        ? "bg-pink-600 ml-auto"
-                        : "bg-yellow-700 mr-auto"
-                    }`}
-                  >
-                    <p>{message.content}</p>
-                    <div className="flex items-center justify-end space-x-1">
-                      <p className="text-xs text-gray-300">
-                        {new Date(message.timestamp).toLocaleTimeString()}
-                      </p>
-                      {isCurrentUser && (
-                        <span
-                          className={`text-xs font-bold ${
-                            message.read ? "text-blue-900" : "text-gray-400"
-                          }`}
-                        >
-                          ✓✓
-                        </span>
-                      )}
+                    {/* Message bubble */}
+                    <div
+                      className={`max-w-[70%] rounded-lg p-3 ${
+                        isCurrentUser
+                          ? "bg-blue-500 ml-auto"
+                          : "bg-gray-700 mr-auto"
+                      }`}
+                    >
+                      <p>{message.content}</p>
+                      <div className="flex items-center justify-end space-x-1">
+                        <p className="text-xs text-gray-300">
+                          {new Date(message.timestamp).toLocaleTimeString()}
+                        </p>
+                        {isCurrentUser && (
+                          <span
+                            className={`text-xs font-bold ${
+                              message.read ? "text-blue-200" : "text-gray-400"
+                            }`}
+                          >
+                            ✓✓
+                          </span>
+                        )}
+                      </div>
                     </div>
+
+                    {/* Current user's profile image */}
+                    {isCurrentUser && (
+                      <div className="w-8 h-8 flex items-center justify-center bg-gray-600 rounded-full">
+                        {profilePhoto ? (
+                          <img
+                            src={`${profilePhoto}`}
+                            alt={displayName}
+                            className="w-8 h-8 rounded-full object-cover"
+                          />
+                        ) : (
+                          <span>{displayName[0].toUpperCase()}</span>
+                        )}
+                      </div>
+                    )}
                   </div>
-
-                  {/* Current user's profile image */}
-                  {isCurrentUser && (
-                    <div className="w-8 h-8 flex items-center justify-center bg-gray-600 rounded-full">
-                      {profilePhoto ? (
-                        <img
-                          src={`${profilePhoto}`}
-                          alt={displayName}
-                          className="w-8 h-8 rounded-full object-cover"
-                        />
-                      ) : (
-                        <span>{displayName[0].toUpperCase()}</span>
-                      )}
-                    </div>
-                  )}
                 </div>
-              </div>
-            );
-          })}
+              );
+            })
+          )}
           <div ref={messagesEndRef} />
         </div>
 
-        <div className="mt-4 flex space-x-4">
-          <input
-            type="text"
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-            onKeyPress={(e) => e.key === "Enter" && handleSend()}
-            placeholder="Type a message..."
-            className="flex-1 bg-gray-800 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <button
-            onClick={handleSend}
-            className="bg-blue-500 hover:bg-blue-600 px-6 py-2 rounded-lg"
-          >
-            Send
-          </button>
+        {/* Input */}
+        <div className="p-4 border-t border-gray-800">
+          <div className="flex space-x-4">
+            <input
+              type="text"
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+              onKeyPress={(e) => e.key === "Enter" && handleSend()}
+              placeholder="Type a message..."
+              className="flex-1 bg-gray-800 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <button
+              onClick={handleSend}
+              className="bg-blue-500 hover:bg-blue-600 px-6 py-2 rounded-lg"
+            >
+              Send
+            </button>
+          </div>
         </div>
       </div>
     </div>
