@@ -46,7 +46,6 @@ export const getUserName = async (req, res) => {
 
 // Update the getUser function
 export const getUser = async (req, res) => {
-  console.log("req.params.userId", req.params.userId);
   try {
     const userId = req.params.userId;
     const user = await User.findById(userId).select(

@@ -1,0 +1,16 @@
+.codegpt
+
+# Ignore env files in both client and server
+client/.env
+client/.env
+
+server/node_modules
+server/node_modules
+
+# Other common ignores
+node_modules/
+dist/
+build/
+*.log
+.DS_Store
+.vercel
