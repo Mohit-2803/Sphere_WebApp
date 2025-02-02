@@ -19,7 +19,7 @@ const PrivateRoute = ({ element: Component, ...rest }) => {
         }
 
         const response = await axios.get(
-          "http://localhost:5000/api/verify-token",
+          `${import.meta.env.VITE_BACKEND_URL}/api/verify-token`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

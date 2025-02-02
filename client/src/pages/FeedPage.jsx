@@ -17,7 +17,9 @@ const FeedPage = () => {
       try {
         // Fetch feed posts
         const feedResponse = await axios.get(
-          `http://localhost:5000/api/posts/getFeedPosts/${currentUserId}`,
+          `${
+            import.meta.env.VITE_BACKEND_URL
+          }/api/posts/getFeedPosts/${currentUserId}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -27,7 +29,9 @@ const FeedPage = () => {
 
         // Fetch suggested users for follow recommendations
         const suggestionsResponse = await axios.get(
-          `http://localhost:5000/api/users/suggestedUsers/${currentUserId}`,
+          `${
+            import.meta.env.VITE_BACKEND_URL
+          }/api/users/suggestedUsers/${currentUserId}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,

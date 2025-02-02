@@ -34,7 +34,7 @@ const AddPost = ({ onClose }) => {
 
         // Fetch user data from backend using userId as part of the URL
         const response = await axios.get(
-          `http://localhost:5000/api/users/getUserName/${userId}`, // Include userId in the URL
+          `${import.meta.env.VITE_BACKEND_URL}/api/users/getUserName/${userId}`, // Include userId in the URL
           {
             headers: {
               Authorization: `Bearer ${token}`, // Send the token in the request header
@@ -110,7 +110,7 @@ const AddPost = ({ onClose }) => {
       }
 
       const response = await axios.post(
-        "http://localhost:5000/api/posts/create",
+        `${import.meta.env.VITE_BACKEND_URL}/api/posts/create`,
         formData,
         {
           headers: {

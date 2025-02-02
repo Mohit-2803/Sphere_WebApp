@@ -14,7 +14,7 @@ const MessageList = () => {
     const fetchMessages = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/messages/${selectedUser}`
+          `${import.meta.env.VITE_BACKEND_URL}/api/messages/${selectedUser}`
         );
         setMessages(response.data);
       } catch (error) {

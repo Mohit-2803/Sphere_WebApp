@@ -57,7 +57,7 @@ const Post = ({ post }) => {
   const handleLike = async () => {
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/posts/${post._id}/likes`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/posts/${post._id}/likes`,
         { userId: currentUserId }
       );
 
@@ -106,7 +106,7 @@ const Post = ({ post }) => {
           >
             {profilePhoto ? (
               <img
-                src={`http://localhost:5000${profilePhoto}`}
+                src={`${import.meta.env.VITE_BACKEND_URL}${profilePhoto}`}
                 alt={username}
                 className="w-full h-full object-cover"
                 onError={(e) => {
@@ -137,7 +137,7 @@ const Post = ({ post }) => {
       {image && (
         <div className="mb-4 rounded-lg overflow-hidden">
           <img
-            src={`http://localhost:5000${image}`}
+            src={`${import.meta.env.VITE_BACKEND_URL}${image}`}
             alt="Post content"
             className="w-full h-auto max-h-96 object-cover"
             onError={(e) => {
@@ -196,7 +196,7 @@ const CommentsModal = ({
 
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/posts/${post._id}/comments`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/posts/${post._id}/comments`,
         { content: newComment, userId: currentUserId },
         {
           headers: {
@@ -223,7 +223,9 @@ const CommentsModal = ({
               <Link to={`/profile/${post.user._id}`}>
                 {post.user.profilePhoto ? (
                   <img
-                    src={`http://localhost:5000${post.user.profilePhoto}`}
+                    src={`${import.meta.env.VITE_BACKEND_URL}${
+                      post.user.profilePhoto
+                    }`}
                     alt={post.user.username}
                     className="w-full h-full object-cover"
                     onError={(e) => {
@@ -258,7 +260,9 @@ const CommentsModal = ({
                   <Link to={`/profile/${comment.user._id}`}>
                     {comment.user.profilePhoto ? (
                       <img
-                        src={`http://localhost:5000${comment.user.profilePhoto}`}
+                        src={`${import.meta.env.VITE_BACKEND_URL}${
+                          comment.user.profilePhoto
+                        }`}
                         alt={comment.user.username}
                         className="w-full h-full object-cover"
                         onError={(e) => {

@@ -25,6 +25,5 @@ dist-ssr
 
 .vercel
 
+# added
 .env
-
-.vercel

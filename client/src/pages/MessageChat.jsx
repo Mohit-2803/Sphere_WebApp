@@ -25,21 +25,23 @@ const MessageChat = () => {
 
         // Fetch current user details
         const currentUserRes = await axios.get(
-          `http://localhost:5000/api/users/getUser/${currentUserId}`,
+          `${
+            import.meta.env.VITE_BACKEND_URL
+          }/api/users/getUser/${currentUserId}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setCurrentUser(currentUserRes.data.user);
 
         // Fetch recipient details
         const recipientRes = await axios.get(
-          `http://localhost:5000/api/users/getUser/${userId}`,
+          `${import.meta.env.VITE_BACKEND_URL}/api/users/getUser/${userId}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setRecipient(recipientRes.data.user);
 
         // Fetch message history
         const messagesRes = await axios.get(
-          `http://localhost:5000/api/messages/${userId}`,
+          `${import.meta.env.VITE_BACKEND_URL}/api/messages/${userId}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
 
@@ -103,7 +105,9 @@ const MessageChat = () => {
       try {
         const token = localStorage.getItem("token");
         await axios.put(
-          `http://localhost:5000/api/messages/mark-as-read/${userId}`,
+          `${
+            import.meta.env.VITE_BACKEND_URL
+          }/api/messages/mark-as-read/${userId}`,
           {},
           { headers: { Authorization: `Bearer ${token}` } }
         );

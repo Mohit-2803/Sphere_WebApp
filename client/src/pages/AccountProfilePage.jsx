@@ -25,18 +25,26 @@ const AccountProfilePage = () => {
     try {
       const token = localStorage.getItem("token");
       const [profileResponse, postsResponse] = await Promise.all([
-        axios.get(`http://localhost:5000/api/users/getUser/${userId}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        }),
-        axios.get(`http://localhost:5000/api/posts/getPosts/${userId}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        }),
+        axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/api/users/getUser/${userId}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        ),
+        axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/api/posts/getPosts/${userId}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        ),
       ]);
 
       let followingStatus = false;
       if (!isCurrentUser) {
         const currentUserResponse = await axios.get(
-          `http://localhost:5000/api/users/getUser/${currentUserId}`,
+          `${
+            import.meta.env.VITE_BACKEND_URL
+          }/api/users/getUser/${currentUserId}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         const currentUserFollowing =
@@ -81,7 +89,9 @@ const AccountProfilePage = () => {
       const token = localStorage.getItem("token");
 
       await axios.post(
-        `http://localhost:5000/api/users/toggleFollow/${currentUserId}`,
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/api/users/toggleFollow/${currentUserId}`,
         { targetId: userId },
         { headers: { Authorization: `Bearer ${token}` } }
       );

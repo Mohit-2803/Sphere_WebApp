@@ -23,7 +23,9 @@ const HomePage = () => {
       try {
         const [homeData, followingResponse] = await Promise.all([
           axios.get(
-            `http://localhost:5000/api/users/getHomeData/${currentUserId}`,
+            `${
+              import.meta.env.VITE_BACKEND_URL
+            }/api/users/getHomeData/${currentUserId}`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -31,7 +33,9 @@ const HomePage = () => {
             }
           ),
           axios.get(
-            `http://localhost:5000/api/posts/${currentUserId}/following`,
+            `${
+              import.meta.env.VITE_BACKEND_URL
+            }/api/posts/${currentUserId}/following`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -80,7 +84,9 @@ const HomePage = () => {
       try {
         const [searchResponse, followingResponse] = await Promise.all([
           axios.get(
-            `http://localhost:5000/api/users/searchUsers?query=${searchQuery}`,
+            `${
+              import.meta.env.VITE_BACKEND_URL
+            }/api/users/searchUsers?query=${searchQuery}`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -88,7 +94,9 @@ const HomePage = () => {
             }
           ),
           axios.get(
-            `http://localhost:5000/api/users/${currentUserId}/following`,
+            `${
+              import.meta.env.VITE_BACKEND_URL
+            }/api/users/${currentUserId}/following`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -119,7 +127,9 @@ const HomePage = () => {
   const handleFollow = async (userId, isCurrentlyFollowing) => {
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/users/toggleFollow/${currentUserId}`,
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/api/users/toggleFollow/${currentUserId}`,
         { targetId: userId },
         {
           headers: {
@@ -238,7 +248,7 @@ const UserCard = ({ user, onFollow }) => {
           <Link to={`/profile/${user._id}`}>
             {!imageError && user.profilePhoto ? (
               <img
-                src={`http://localhost:5000${user.profilePhoto}`}
+                src={`${import.meta.env.VITE_BACKEND_URL}${user.profilePhoto}`}
                 alt={user.username}
                 className="w-12 h-12 rounded-full object-cover mr-3"
                 onError={() => setImageError(true)}

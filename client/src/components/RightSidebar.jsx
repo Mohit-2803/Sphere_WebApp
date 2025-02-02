@@ -43,7 +43,9 @@ const RightSidebar = ({ suggestedUsers }) => {
 
       // Toggle Follow/Unfollow
       await axios.post(
-        `http://localhost:5000/api/users/toggleFollow/${currentUserId}`,
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/api/users/toggleFollow/${currentUserId}`,
         { targetId: userId },
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -91,7 +93,9 @@ const RightSidebar = ({ suggestedUsers }) => {
               <Link to={`/profile/${user._id}`}>
                 {user.profilePhoto ? (
                   <img
-                    src={`http://localhost:5000${user.profilePhoto}`}
+                    src={`${import.meta.env.VITE_BACKEND_URL}${
+                      user.profilePhoto
+                    }`}
                     alt={user.username}
                     className="w-10 h-10 rounded-full object-cover"
                     onError={(e) => (e.target.src = "/default-avatar.png")}
