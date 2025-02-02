@@ -36,7 +36,7 @@ const Layout = () => {
         )}
 
         {/* Main Content Area */}
-        <main className="flex-1 p-4 bg-gray-50 pt-0 pr-0 pb-0">
+        <main className="flex-1 bg-gray-800">
           {" "}
           {/* Flexible content area */}
           <Outlet />

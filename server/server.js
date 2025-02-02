@@ -23,17 +23,14 @@ const app = express();
 // Middleware
 app.use(
   cors({
-    origin: "https://sphere-omega-seven.vercel.app", // Replace with your frontend URL
+    origin: "https://sphere-red.vercel.app", // Replace with your frontend URL
     credentials: true,
   })
 );
 
 // Handle OPTIONS requests manually if needed
 app.options("*", (req, res) => {
-  res.setHeader(
-    "Access-Control-Allow-Origin",
-    "https://sphere-omega-seven.vercel.app"
-  );
+  res.setHeader("Access-Control-Allow-Origin", "https://sphere-red.vercel.app");
   res.setHeader(
     "Access-Control-Allow-Methods",
     "GET, POST, PUT, DELETE, OPTIONS"
@@ -89,7 +86,7 @@ const server = http.createServer(app);
 // Configure Socket.io
 const io = new Server(server, {
   cors: {
-    origin: "https://sphere-omega-seven.vercel.app",
+    origin: "https://sphere-red.vercel.app",
     methods: ["GET", "POST"],
     credentials: true,
     extraHeaders: {
