@@ -5,7 +5,6 @@ import { FaHeart, FaUserPlus, FaRegBell } from "react-icons/fa";
 import TimeAgo from "timeago-react";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { useSocket } from "../context/useSocket";
-import Sidebar from "../components/Sidebar";
 
 const NotificationPage = () => {
   const [notifications, setNotifications] = useState([]);
@@ -74,45 +73,41 @@ const NotificationPage = () => {
   if (loading) return <LoadingSpinner />;
 
   return (
-    <div className="flex min-h-screen bg-[#161f32] text-white">
-      {/* Sidebar */}
-      <Sidebar />
-      <div className="min-h-screen bg-[#161f32] text-gray-100 p-4 ml-[440px] min-w-2xl">
-        <div className="max-w-2xl mx-auto">
-          <div className="flex items-center mb-8 mt-5">
-            <FaRegBell className="text-2xl mr-3 text-blue-500" />
-            <h1 className="text-2xl font-bold">Notifications</h1>
-          </div>
+    <div className="min-h-screen bg-[#161f32] text-gray-100 p-4">
+      <div className="max-w-4xl mx-auto">
+        <div className="flex items-center mb-8 mt-5">
+          <FaRegBell className="text-2xl mr-3 text-blue-500" />
+          <h1 className="text-2xl font-bold">Notifications</h1>
+        </div>
 
-          <div className="space-y-4">
-            {notifications.map((notification) => (
-              <div
-                key={notification._id}
-                className={`p-4 rounded-lg ${
-                  !notification.read ? "bg-gray-800" : "bg-gray-700"
-                }`}
-              >
-                <div className="flex items-start gap-4">
-                  <div className="mt-1">
-                    {getNotificationContent(notification).icon}
-                  </div>
-                  <div>
-                    <p className="font-medium">
-                      {getNotificationContent(notification).text}
-                    </p>
-                    <TimeAgo
-                      datetime={notification.createdAt}
-                      className="text-gray-400 text-sm"
-                    />
-                  </div>
+        <div className="space-y-4">
+          {notifications.map((notification) => (
+            <div
+              key={notification._id}
+              className={`p-4 rounded-lg ${
+                !notification.read ? "bg-gray-800" : "bg-gray-700"
+              }`}
+            >
+              <div className="flex items-start gap-4">
+                <div className="mt-1">
+                  {getNotificationContent(notification).icon}
+                </div>
+                <div>
+                  <p className="font-medium">
+                    {getNotificationContent(notification).text}
+                  </p>
+                  <TimeAgo
+                    datetime={notification.createdAt}
+                    className="text-gray-400 text-sm"
+                  />
                 </div>
               </div>
-            ))}
+            </div>
+          ))}
 
-            {notifications.length === 0 && (
-              <p className="text-gray-400 text-center">No notifications yet</p>
-            )}
-          </div>
+          {notifications.length === 0 && (
+            <p className="text-gray-400 text-center">No notifications yet</p>
+          )}
         </div>
       </div>
     </div>

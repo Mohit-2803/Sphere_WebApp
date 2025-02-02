@@ -7,7 +7,6 @@ import { FaRegCompass, FaUserCheck } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { Link } from "react-router-dom";
-import Sidebar from "../components/Sidebar";
 
 const HomePage = () => {
   const [suggestedUsers, setSuggestedUsers] = useState([]);
@@ -179,59 +178,51 @@ const HomePage = () => {
   if (isLoading) return <LoadingSpinner />;
 
   return (
-    <div className="flex min-h-screen bg-[#161f32] text-white">
-      {/* Sidebar */}
-      <Sidebar />
-      <div className="min-h-screen bg-[#161f32] text-gray-100 p-6 ml-[430px] min-w-2xl">
-        <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold mb-2">Welcome to Sphere! 🌐</h1>
-            <p className="text-gray-400">
-              Follow at least 5 accounts to start seeing posts in your feed
-            </p>
+    <div className="min-h-screen bg-[#161f32] text-gray-100 p-6">
+      <div className="max-w-3xl mx-auto">
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold mb-2">Welcome to Sphere! 🌐</h1>
+          <p className="text-gray-400">
+            Follow at least 5 accounts to start seeing posts in your feed
+          </p>
+        </div>
+
+        {/* Search Section */}
+        <div className="mb-8 relative">
+          <div className="flex items-center bg-gray-800 rounded-lg px-4 py-2">
+            <FiSearch className="text-gray-400 mr-2" />
+            <input
+              type="text"
+              placeholder="Search users..."
+              className="w-full bg-transparent outline-none text-gray-100"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </div>
 
-          {/* Search Section */}
-          <div className="mb-8 relative">
-            <div className="flex items-center bg-gray-800 rounded-lg px-4 py-2">
-              <FiSearch className="text-gray-400 mr-2" />
-              <input
-                type="text"
-                placeholder="Search users..."
-                className="w-full bg-transparent outline-none text-gray-100"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-
-            {/* Search Results */}
-            {searchResults.length > 0 && (
-              <div className="absolute w-full mt-2 bg-gray-800 rounded-lg shadow-xl z-10">
-                {searchResults.map((user) => (
-                  <UserCard
-                    key={user._id}
-                    user={user}
-                    onFollow={handleFollow}
-                  />
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Suggested Users */}
-          <div className="flex flex-col gap-4">
-            {suggestedUsers.map((user) => (
-              <UserCard key={user._id} user={user} onFollow={handleFollow} />
-            ))}
-          </div>
-
-          {/* Empty State */}
-          {suggestedUsers.length === 0 && (
-            <div className="text-center py-12 text-gray-400">
-              <p>No more suggestions available. Try searching for users!</p>
+          {/* Search Results */}
+          {searchResults.length > 0 && (
+            <div className="absolute w-full mt-2 bg-gray-800 rounded-lg shadow-xl z-10">
+              {searchResults.map((user) => (
+                <UserCard key={user._id} user={user} onFollow={handleFollow} />
+              ))}
             </div>
           )}
         </div>
+
+        {/* Suggested Users */}
+        <div className="flex flex-col gap-4">
+          {suggestedUsers.map((user) => (
+            <UserCard key={user._id} user={user} onFollow={handleFollow} />
+          ))}
+        </div>
+
+        {/* Empty State */}
+        {suggestedUsers.length === 0 && (
+          <div className="text-center py-12 text-gray-400">
+            <p>No more suggestions available. Try searching for users!</p>
+          </div>
+        )}
       </div>
     </div>
   );

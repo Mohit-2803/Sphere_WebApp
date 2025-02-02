@@ -1,47 +1,64 @@
 import Sidebar from "./components/Sidebar";
 import Navbar from "./components/Navbar";
-import Footer from "./components/Footer"; // Assuming Footer is imported
+import Footer from "./components/Footer";
 import { Outlet, useLocation } from "react-router-dom";
-import { Toaster } from "react-hot-toast"; // Import the Toaster component
+import { Toaster } from "react-hot-toast";
 
 const Layout = () => {
-  const location = useLocation(); // Access the current route
+  const location = useLocation();
 
-  // List of routes where the Sidebar should not be shown
   const hideSidebarRoutes = [
     "/",
     "/signup",
     "/login",
     "/terms",
     "/forgot-password",
-    "/profile",
-    "/notifications",
-    "/messages",
-    "/friends",
-    "/home",
-    "/feed",
+    // "/notifications",
+    // "/messages",
+    // "/friends",
+    // "/home",
+    // "/feed",
   ];
 
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       {/* Show Navbar only on '/' route */}
       {location.pathname === "/" && <Navbar />}
 
-      {/* Show Sidebar only when NOT in the hideSidebarRoutes */}
-      {!hideSidebarRoutes.includes(location.pathname) && <Sidebar />}
+      <div className="flex flex-1">
+        {/* Show Sidebar only when NOT in the hideSidebarRoutes */}
+        {!hideSidebarRoutes.includes(location.pathname) && (
+          <div className="w-64 shrink-0">
+            {" "}
+            {/* Fixed width for sidebar */}
+            <Sidebar />
+          </div>
+        )}
 
-      {/* Main Content */}
-      <Outlet />
+        {/* Main Content Area */}
+        <main className="flex-1 p-4 bg-gray-50 pt-0 pr-0 pb-0">
+          {" "}
+          {/* Flexible content area */}
+          <Outlet />
+        </main>
+      </div>
 
       {/* Show Footer only on '/' route */}
       {location.pathname === "/" && <Footer />}
 
       {/* Toast Notifications Container */}
       <Toaster
-        position="top-right" // Position toast at the top right
-        reverseOrder={false} // Display toasts in the order they are called
+        position="top-right"
+        reverseOrder={false}
+        toastOptions={{
+          duration: 3000,
+          style: {
+            background: "#fff",
+            color: "#333",
+          },
+        }}
       />
-    </>
+    </div>
   );
 };
 
