@@ -14,6 +14,12 @@ const Layout = () => {
     "/login",
     "/terms",
     "/forgot-password",
+    "/profile",
+    "/notifications",
+    "/messages",
+    "/friends",
+    "/home",
+    "/feed",
   ];
 
   return (

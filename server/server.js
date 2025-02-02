@@ -23,7 +23,7 @@ const app = express();
 // Middleware
 app.use(
   cors({
-    origin: "https://sphere-sand.vercel.app", // Replace with your frontend URL
+    origin: "https://sphere-two-delta.vercel.app", // Replace with your frontend URL
     credentials: true,
   })
 );
@@ -32,7 +32,7 @@ app.use(
 app.options("*", (req, res) => {
   res.setHeader(
     "Access-Control-Allow-Origin",
-    "https://sphere-sand.vercel.app"
+    "https://sphere-two-delta.vercel.app"
   );
   res.setHeader(
     "Access-Control-Allow-Methods",
@@ -89,7 +89,7 @@ const server = http.createServer(app);
 // Configure Socket.io
 const io = new Server(server, {
   cors: {
-    origin: "https://sphere-sand.vercel.app",
+    origin: "https://sphere-two-delta.vercel.app",
     methods: ["GET", "POST"],
     credentials: true,
     extraHeaders: {

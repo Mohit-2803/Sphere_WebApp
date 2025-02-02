@@ -135,7 +135,7 @@ const Sidebar = () => {
   }
 
   return (
-    <div className="fixed inset-y-0 left-0 w-72 bg-gray-900 shadow-lg p-6 flex flex-col">
+    <div className="w-72 h-screen bg-gray-900 shadow-lg p-6 flex flex-col fixed">
       {/* Logo */}
       <div className="mb-8">
         <Link
