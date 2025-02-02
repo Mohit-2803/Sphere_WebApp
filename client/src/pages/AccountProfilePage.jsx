@@ -200,7 +200,7 @@ const AccountProfilePage = () => {
               <div className="flex gap-4">
                 <button
                   onClick={handleFollow}
-                  className={`flex items-center px-4 py-2 rounded-lg ${
+                  className={`flex items-center px-4 py-2 rounded-lg cursor-pointer ${
                     isFollowing
                       ? "bg-gray-700 hover:bg-gray-600"
                       : "bg-blue-500 hover:bg-blue-600"
@@ -219,7 +219,7 @@ const AccountProfilePage = () => {
 
                 {isFollowing && (
                   <button
-                    className="flex items-center bg-green-500 hover:bg-green-600 px-4 py-2 rounded-lg"
+                    className="flex items-center bg-green-500 hover:bg-green-600 px-4 py-2 rounded-lg cursor-pointer"
                     onClick={() => navigate(`/messages/${userId}`)}
                   >
                     <FaCommentDots className="mr-2" /> Message

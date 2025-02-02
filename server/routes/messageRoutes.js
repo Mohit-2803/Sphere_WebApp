@@ -103,4 +103,59 @@ router.get("/:userId", authMiddleware, async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
+// Get all conversation partners for the current user
+router.get("/conversations/partners", authMiddleware, async (req, res) => {
+  try {
+    const userId = req.user.userId;
+
+    const partners = await Message.aggregate([
+      {
+        $match: {
+          $or: [
+            { sender: new mongoose.Types.ObjectId(userId) },
+            { receiver: new mongoose.Types.ObjectId(userId) },
+          ],
+        },
+      },
+      {
+        $group: {
+          _id: {
+            $cond: [
+              { $eq: ["$sender", new mongoose.Types.ObjectId(userId)] },
+              "$receiver",
+              "$sender",
+            ],
+          },
+          lastMessageTimestamp: { $max: "$timestamp" }, // Get latest message time
+        },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "_id",
+          foreignField: "_id",
+          as: "user",
+        },
+      },
+      { $unwind: "$user" },
+      {
+        $project: {
+          _id: "$user._id",
+          name: "$user.name",
+          username: "$user.username",
+          profilePhoto: "$user.profilePhoto",
+          lastMessageTimestamp: 1,
+        },
+      },
+      { $sort: { lastMessageTimestamp: -1 } }, // Sort by most recent interaction
+    ]);
+
+    res.status(200).json(partners);
+  } catch (error) {
+    console.error("Error fetching conversation partners:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 export default router;

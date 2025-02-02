@@ -174,8 +174,6 @@ export const getHomeData = async (req, res) => {
       },
     ]);
 
-    console.log("suggestedUsers", suggestedUsers);
-
     res.json({ suggestedUsers });
   } catch (error) {
     res.status(500).json({ message: "Error fetching home data", error });

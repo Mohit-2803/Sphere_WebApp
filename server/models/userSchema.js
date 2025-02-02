@@ -43,6 +43,10 @@ const UserSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    firstLogin: {
+      type: Boolean,
+      default: true,
+    },
     followers: [
       {
         type: mongoose.Schema.Types.ObjectId,

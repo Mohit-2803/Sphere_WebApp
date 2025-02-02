@@ -22,6 +22,7 @@ import MessageChat from "./pages/MessageChat";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import SphereFrontPage from "./pages/SphereFrontPage";
 import ComingSoonPage from "./pages/ComingSoonPage";
+import NotificationPage from "./pages/NotificationPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -34,8 +35,6 @@ const router = createBrowserRouter(
 
       {/* coming soon routes */}
       <Route path="forgot-password" element={<ComingSoonPage />} />
-      <Route path="friends" element={<ComingSoonPage />} />
-      <Route path="notifications" element={<ComingSoonPage />} />
       <Route path="saved" element={<ComingSoonPage />} />
       <Route path="settings" element={<ComingSoonPage />} />
 
@@ -47,6 +46,10 @@ const router = createBrowserRouter(
         element={<PrivateRoute element={AccountProfilePage} />}
       />
       <Route path="friends" element={<PrivateRoute element={FriendsPage} />} />
+      <Route
+        path="notifications"
+        element={<PrivateRoute element={NotificationPage} />}
+      />
       <Route path="feed" element={<PrivateRoute element={FeedPage} />} />
       <Route path="messages" element={<PrivateRoute element={MessagePage} />} />
       <Route

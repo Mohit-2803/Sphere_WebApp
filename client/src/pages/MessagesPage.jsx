@@ -5,55 +5,52 @@ import { FaComment } from "react-icons/fa";
 import LoadingSpinner from "../components/LoadingSpinner";
 
 const MessagePage = () => {
-  const [users, setUsers] = useState([]); // Only following users will be stored here
-  const [unreadCounts, setUnreadCounts] = useState({}); // Unread counts for each user
+  const [conversationPartners, setConversationPartners] = useState([]);
+  const [unreadCounts, setUnreadCounts] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
-  const currentUserId = localStorage.getItem("userId");
 
-  // Fetch only the users that current user is following
+  // Fetch all conversation partners
   useEffect(() => {
-    const fetchFollowing = async () => {
+    const fetchConversationPartners = async () => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
           `${
             import.meta.env.VITE_BACKEND_URL
-          }/api/users/${currentUserId}/following`,
+          }/api/messages/conversations/partners`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-        // Assuming the API response contains a "following" array
-        const followingUsers = response.data.following;
-        setUsers(followingUsers);
-        fetchUnreadCounts(followingUsers); // Fetch unread counts for these users
+        setConversationPartners(response.data);
+        fetchUnreadCounts(response.data); // Fetch unread counts for these users
         setIsLoading(false);
       } catch (error) {
-        console.error("Error fetching following users:", error);
+        console.error("Error fetching conversation partners:", error);
         setIsLoading(false);
       }
     };
 
-    fetchFollowing();
-  }, [currentUserId]);
+    fetchConversationPartners();
+  }, []);
 
-  // Fetch unread message counts for each following user
-  const fetchUnreadCounts = async (users) => {
+  // Fetch unread message counts for each partner
+  const fetchUnreadCounts = async (partners) => {
     try {
       const token = localStorage.getItem("token");
       const counts = {};
 
-      for (const user of users) {
+      for (const partner of partners) {
         const response = await axios.get(
           `${import.meta.env.VITE_BACKEND_URL}/api/messages/unread-count/${
-            user._id
+            partner._id
           }`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-        counts[user._id] = response.data.count; // Save the count for this user
+        counts[partner._id] = response.data.count;
       }
 
       setUnreadCounts(counts);
@@ -70,40 +67,38 @@ const MessagePage = () => {
         <h1 className="text-3xl font-bold mb-8">Messages</h1>
 
         <div className="bg-gray-800 rounded-lg p-4">
-          {users.length === 0 ? (
-            <p className="text-gray-400 text-center">
-              No following users found
-            </p>
+          {conversationPartners.length === 0 ? (
+            <p className="text-gray-400 text-center">No conversations found</p>
           ) : (
-            users.map((user) => (
+            conversationPartners.map((partner) => (
               <div
-                key={user._id}
+                key={partner._id}
                 className="flex items-center justify-between p-3 hover:bg-gray-700 rounded-lg cursor-pointer"
-                onClick={() => navigate(`/messages/${user._id}`)}
+                onClick={() => navigate(`/messages/${partner._id}`)}
               >
                 <div className="flex items-center space-x-3">
-                  {user.profilePhoto ? (
+                  {partner.profilePhoto ? (
                     <img
                       src={`${import.meta.env.VITE_BACKEND_URL}${
-                        user.profilePhoto
+                        partner.profilePhoto
                       }`}
-                      alt={user.name}
+                      alt={partner.name}
                       className="w-10 h-10 rounded-full object-cover"
                     />
                   ) : (
                     <div className="w-10 h-10 flex items-center justify-center bg-gray-600 rounded-full">
-                      {user.name[0].toUpperCase()}
+                      {partner.name[0].toUpperCase()}
                     </div>
                   )}
                   <div>
-                    <p className="font-semibold">{user.name}</p>
-                    <p className="text-gray-400 text-sm">@{user.username}</p>
+                    <p className="font-semibold">{partner.name}</p>
+                    <p className="text-gray-400 text-sm">@{partner.username}</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-3">
-                  {unreadCounts[user._id] > 0 && (
+                  {unreadCounts[partner._id] > 0 && (
                     <span className="bg-red-500 text-white text-xs rounded-full px-2 py-1">
-                      {unreadCounts[user._id]}
+                      {unreadCounts[partner._id]}
                     </span>
                   )}
                   <FaComment className="text-gray-400" />

@@ -153,7 +153,7 @@ const Sidebar = () => {
             <Link
               to="/home"
               className={`flex items-center space-x-3 ${
-                isActive("/home")
+                isActive("/feed")
                   ? "text-white bg-gray-800"
                   : "text-gray-300 hover:text-white hover:bg-gray-800"
               } p-3 rounded-lg transition-all`}
@@ -205,7 +205,7 @@ const Sidebar = () => {
               <BellIcon className="h-6 w-6" />
               <span className="text-lg">Notifications</span>
               <span className="bg-red-500 text-white text-xs rounded-full px-2 py-1 ml-2">
-                3
+                1
               </span>
             </Link>
           </li>

@@ -6,6 +6,7 @@ import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
 import messageRoutes from "./routes/messageRoutes.js";
+import notificationRoutes from "./routes/notificationRoutes.js";
 import jwt from "jsonwebtoken"; // If using JWT for authentication
 import path from "path";
 import { fileURLToPath } from "url";
@@ -22,17 +23,14 @@ const app = express();
 // Middleware
 app.use(
   cors({
-    origin: "https://sphere-henna.vercel.app", // Replace with your frontend URL
+    origin: "http://localhost:5173", // Replace with your frontend URL
     credentials: true,
   })
 );
 
 // Handle OPTIONS requests manually if needed
 app.options("*", (req, res) => {
-  res.setHeader(
-    "Access-Control-Allow-Origin",
-    "https://sphere-henna.vercel.app"
-  );
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
   res.setHeader(
     "Access-Control-Allow-Methods",
     "GET, POST, PUT, DELETE, OPTIONS"
@@ -56,6 +54,9 @@ app.use("/api/posts", postRoutes);
 
 //message route
 app.use("/api/messages", messageRoutes);
+
+// notification route
+app.use("/api/notifications", notificationRoutes);
 
 // Route to verify the token
 app.get("/api/verify-token", (req, res) => {
@@ -85,7 +86,7 @@ const server = http.createServer(app);
 // Configure Socket.io
 const io = new Server(server, {
   cors: {
-    origin: "https://sphere-henna.vercel.app",
+    origin: "http://localhost:5173",
     methods: ["GET", "POST"],
     credentials: true,
     extraHeaders: {

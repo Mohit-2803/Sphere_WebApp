@@ -4,6 +4,8 @@ import bcrypt from "bcryptjs";
 import dotenv from "dotenv";
 import createTransporter from "../config/nodemailerConfig.js";
 import jwt from "jsonwebtoken";
+import Notification from "../models/notificationSchema.js";
+import { createWelcomeNotification } from "../controllers/notificationController.js";
 
 dotenv.config(); // Load environment variables
 
@@ -40,6 +42,7 @@ export const signup = async (req, res) => {
       email,
       password: hashedPassword,
       isVerified: false,
+      firstLogin: true, // Add firstLogin flag
     });
 
     await user.save(); // Save user to DB
@@ -209,6 +212,16 @@ export const login = async (req, res) => {
         token, // Send the token along with the message for unverified user
         userId: user._id, // Send the userId of the unverified user
       });
+    }
+
+    // Check if this is the user's first login
+    if (user.firstLogin) {
+      // Create a welcome notification
+      await createWelcomeNotification(user._id);
+
+      // Update the user's firstLogin status
+      user.firstLogin = false;
+      await user.save();
     }
 
     // If the user is verified, send the token and user info
