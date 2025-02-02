@@ -22,7 +22,7 @@ const app = express();
 // Middleware
 app.use(
   cors({
-    origin: "https://sphere-self.vercel.app", // Replace with your frontend URL
+    origin: "https://sphere-henna.vercel.app", // Replace with your frontend URL
     credentials: true,
   })
 );
@@ -31,7 +31,7 @@ app.use(
 app.options("*", (req, res) => {
   res.setHeader(
     "Access-Control-Allow-Origin",
-    "https://sphere-self.vercel.app"
+    "https://sphere-henna.vercel.app"
   );
   res.setHeader(
     "Access-Control-Allow-Methods",
@@ -85,7 +85,7 @@ const server = http.createServer(app);
 // Configure Socket.io
 const io = new Server(server, {
   cors: {
-    origin: "https://sphere-self.vercel.app",
+    origin: "https://sphere-henna.vercel.app",
     methods: ["GET", "POST"],
     credentials: true,
     extraHeaders: {
