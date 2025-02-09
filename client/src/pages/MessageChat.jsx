@@ -295,7 +295,7 @@ const MessageChat = () => {
         </div>
 
         {/* Input */}
-        <div className="p-4 border-t border-gray-800">
+        <div className="p-4 border-t border-gray-800 ml-5">
           <div className="flex space-x-4">
             <input
               type="text"

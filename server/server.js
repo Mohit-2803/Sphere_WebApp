@@ -23,14 +23,14 @@ const app = express();
 // Middleware
 app.use(
   cors({
-    origin: "https://sphere-jet.vercel.app", // Replace with your frontend URL
+    origin: "http://localhost:5173", // Replace with your frontend URL
     credentials: true,
   })
 );
 
 // Handle OPTIONS requests manually if needed
 app.options("*", (req, res) => {
-  res.setHeader("Access-Control-Allow-Origin", "https://sphere-jet.vercel.app");
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
   res.setHeader(
     "Access-Control-Allow-Methods",
     "GET, POST, PUT, DELETE, OPTIONS"
@@ -86,7 +86,7 @@ const server = http.createServer(app);
 // Configure Socket.io
 const io = new Server(server, {
   cors: {
-    origin: "https://sphere-jet.vercel.app",
+    origin: "http://localhost:5173",
     methods: ["GET", "POST"],
     credentials: true,
     extraHeaders: {

@@ -94,10 +94,14 @@ const AddPost = ({ onClose }) => {
       const token = localStorage.getItem("token");
       const userId = localStorage.getItem("userId");
 
-      if (content.length === 0) {
+      if (!image) {
+        toast.error("Add an image");
+        return;
+      } else if (content.length === 0) {
         toast.error("Add a description");
         return;
       }
+
       const formData = new FormData();
       formData.append("content", content);
       formData.append("userId", userId);
